@@ -73,24 +73,55 @@
 <script src="runtime.01496cb1acce401c.js" type="module"></script><script src="polyfills.3ebd5e0cff18d293.js" type="module"></script><script src="main.b5142e5c53f8f9f2.js" type="module"></script>
 <script>
   let stepCount = 0;
-
-if ('Accelerometer' in window && 'Gyroscope' in window) {
-  const sensor = new AbsoluteOrientationSensor({frequency: 60});
-
-  sensor.onreading = () => {
-    const { x, y, z } = sensor.quaternion;
-    const acceleration = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
-    console.log('acceleration', acceleration);
-    if (acceleration > 1.2) {
-      stepCount++;
-      console.log('stepCount', stepCount)
-    }
+  if ('Accelerometer' in window && 'Gyroscope' in window) {
+  navigator.permissions.query({ name: 'accelerometer' })
+      .then((result) => {
+        console.log(result)
+        if (result.state === 'granted') {
+          startPedometer();
+        } else {
+          console.log('Accelerometer permission denied');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    console.log('Accelerometer permission not supported');
   }
 
-  sensor.start();
-} else {
-  alert('Pedometer sensor not supported');
-}
+  function startPedometer() {
+    const sensor = new AbsoluteOrientationSensor({ frequency: 60 });
+    sensor.addEventListener('reading', (data) => {
+      console.log('reading data', data)
+      const magnitude = Math.sqrt(
+        sensor.x ** 2 + sensor.y ** 2 + sensor.z ** 2
+      );
+      console.log(magnitude)
+      if (magnitude > 1.5) {
+        stepCount++;
+      }
+    });
+    sensor.start();
+  }
+
+// if ('Accelerometer' in window && 'Gyroscope' in window) {
+//   const sensor = new AbsoluteOrientationSensor({frequency: 60});
+
+//   sensor.onreading = () => {
+//     const { x, y, z } = sensor.quaternion;
+//     const acceleration = Math.sqrt(x ** 2 + y ** 2 + z ** 2);
+//     console.log('acceleration', acceleration);
+//     if (acceleration > 1.2) {
+//       stepCount++;
+//       console.log('stepCount', stepCount)
+//     }
+//   }
+
+//   sensor.start();
+// } else {
+//   alert('Pedometer sensor not supported');
+// }
 </script>
 
 
