@@ -94,7 +94,7 @@
 
   function startPedometer() {
     const sensor = new Accelerometer({ frequency: 1 });
-    sensor.addEventListener('reading', () => {
+    sensor.addEventListener('reading', (data) => {
       console.log('reading data', data)
       const magnitude = Math.sqrt(
         sensor.x ** 2 + sensor.y ** 2 + sensor.z ** 2
