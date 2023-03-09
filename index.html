@@ -91,7 +91,7 @@
   }
 
   function startPedometer() {
-    const sensor = new AbsoluteOrientationSensor({ frequency: 60 });
+    const sensor = new Accelerometer({ frequency: 60 });
           console.log('sensor data', sensor)
     sensor.addEventListener('reading', (data) => {
       console.log('reading data', data)
