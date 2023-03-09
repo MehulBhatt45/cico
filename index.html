@@ -95,12 +95,13 @@
   function startPedometer() {
     const sensor = new Accelerometer({ frequency: 1 });
     sensor.addEventListener('reading', () => {
+      console.log('reading data', data)
       const magnitude = Math.sqrt(
         sensor.x ** 2 + sensor.y ** 2 + sensor.z ** 2
       );
+      console.log(magnitude)
       if (magnitude > 1.5) {
         stepCount++;
-        alert(stepCount);
       }
     });
     sensor.start();
