@@ -70,42 +70,7 @@
 <body>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
-<script src="runtime.01496cb1acce401c.js" type="module"></script><script src="polyfills.3ebd5e0cff18d293.js" type="module"></script><script src="main.b5142e5c53f8f9f2.js" type="module"></script>
-<script>
-  let stepCount = 0;
-
-  if ('permissions' in navigator) {
-
-    navigator.permissions.query({ name: 'accelerometer' })
-      .then((result) => {
-        console.log(result)
-        if (result.state === 'granted') {
-          startPedometer();
-        } else {
-          console.log('Accelerometer permission denied');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  } else {
-    console.log('Accelerometer permission not supported');
-  }
-
-  function startPedometer() {
-    const sensor = new Accelerometer({ frequency: 1 });
-    sensor.addEventListener('reading', () => {
-      const magnitude = Math.sqrt(
-        sensor.x ** 2 + sensor.y ** 2 + sensor.z ** 2
-      );
-      if (magnitude > 1.5) {
-        stepCount++;
-        alert(stepCount);
-      }
-    });
-    sensor.start();
-  }
-</script>
+<script src="runtime.1be7a72a4b9f799d.js" type="module"></script><script src="polyfills.3ebd5e0cff18d293.js" type="module"></script><script src="main.1bb72e3b1d6b3a57.js" type="module"></script>
 
 
 </body></html>
