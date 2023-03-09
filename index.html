@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <title>CICO</title>
 
-  <base href="/cico/">
+  <base href="/cico-release/">
 
   <!-- <meta name="color-scheme" content="light dark" /> -->
   <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -71,6 +71,41 @@
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 <script src="runtime.01496cb1acce401c.js" type="module"></script><script src="polyfills.3ebd5e0cff18d293.js" type="module"></script><script src="main.b5142e5c53f8f9f2.js" type="module"></script>
+<script>
+  let stepCount = 0;
+
+  if ('permissions' in navigator) {
+
+    navigator.permissions.query({ name: 'accelerometer' })
+      .then((result) => {
+        console.log(result)
+        if (result.state === 'granted') {
+          startPedometer();
+        } else {
+          console.log('Accelerometer permission denied');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    console.log('Accelerometer permission not supported');
+  }
+
+  function startPedometer() {
+    const sensor = new Accelerometer({ frequency: 1 });
+    sensor.addEventListener('reading', () => {
+      const magnitude = Math.sqrt(
+        sensor.x ** 2 + sensor.y ** 2 + sensor.z ** 2
+      );
+      if (magnitude > 1.5) {
+        stepCount++;
+        document.getElementById('stepCount').innerText = stepCount;
+      }
+    });
+    sensor.start();
+  }
+</script>
 
 
 </body></html>
